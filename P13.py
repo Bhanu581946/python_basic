@@ -1,4 +1,3 @@
-def greet(name: str, age: int) -> str:
+def f(name: str, age: int) -> str:
     return f"Hello, {name}! You are {age} years old."
-
-print(greet("Alice", 30))
+print(f("Alice", 30))
