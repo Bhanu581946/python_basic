@@ -1,3 +1,15 @@
-def f(name="Guest"):
-    print("Hello,", name)
-f()     
+fruits=['apple','banana','grapes','mango','apple']
+a_count=fruits.count('apple')
+print(a_count)
+b_index=fruits.index('banana')
+print(b_index)
+a_index=fruits.index('apple', 3)
+print(a_index)
+fruits.reverse()
+print(fruits)
+fruits.append('orange')
+print(fruits)
+fruits.sort()
+print(fruits)
+fruits.pop(2)
+print(fruits)
