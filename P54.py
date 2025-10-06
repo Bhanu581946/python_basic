@@ -1,11 +1,11 @@
 # Type 1 here we call fun inside display so that it can return a value
-# def display(fun):
-#     return "hi"+ fun()  
+def display(fun):
+    return "hi"+ fun()  
 
-# def message():
-#     return 'How are you'
+def message():
+    return 'How are you'
 
-# print(display(message))
+print(display(message))
 
 
 
