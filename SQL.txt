@@ -303,3 +303,172 @@ mysql> select * from Author_Book;
 6 rows in set (0.00 sec)
 
 2 rows in set (0.01 sec)
+
+
+# Create a table
+mysql> CREATE TABLE Employee (
+    ->     ID INT(4) NOT NULL PRIMARY KEY,
+    ->     First_Name VARCHAR(30) NOT NULL,
+    ->     Last_Name VARCHAR(30) NOT NULL,
+    ->     User_ID VARCHAR(10) UNIQUE,
+    ->     Salary DECIMAL(9,2),
+    ->     CHECK (Salary > 5000)
+    -> );
+Query OK, 0 rows affected, 1 warning (0.06 sec)
+
+mysql> INSERT INTO Employee (ID, First_Name, Last_Name, User_ID, Salary) VALUES
+    -> (1001, 'Aman', 'Singh', 'aman01', 6000.00),
+    -> (1002, 'Raman', 'Sharma', 'raman02', 7500.50),
+    -> (1003, 'Kajal', 'Verma', 'kajal03', 8200.75),
+    -> (1004, 'Rahul', 'Sharma', 'rahul04', 9000.00),
+    -> (1005, 'Ram', 'Singh', 'ram05', 5500.00);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from Employee
+    -> ;
++------+------------+-----------+---------+---------+
+| ID   | First_Name | Last_Name | User_ID | Salary  |
++------+------------+-----------+---------+---------+
+| 1001 | Aman       | Singh     | aman01  | 6000.00 |
+| 1002 | Raman      | Sharma    | raman02 | 7500.50 |
+| 1003 | Kajal      | Verma     | kajal03 | 8200.75 |
+| 1004 | Rahul      | Sharma    | rahul04 | 9000.00 |
+| 1005 | Ram        | Singh     | ram05   | 5500.00 |
++------+------------+-----------+---------+---------+
+5 rows in set (0.00 sec)
+
+# For record with ID+1003 update record with Last_Name, User_ID and Salary.
+
+mysql> UPDATE Employee SET
+    ->     First_Name='Karan',
+    ->     User_ID='karan103',
+    ->     Salary=10000
+    -> WHERE ID=1003;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Employee;
++------+------------+-----------+----------+----------+
+| ID   | First_Name | Last_Name | User_ID  | Salary   |
++------+------------+-----------+----------+----------+
+| 1001 | Aman       | Singh     | aman01   |  6000.00 |
+| 1002 | Raman      | Sharma    | raman02  |  7500.50 |
+| 1003 | Karan      | Verma     | karan103 | 10000.00 |
+| 1004 | Rahul      | Sharma    | rahul04  |  9000.00 |
+| 1005 | Ram        | Singh     | ram05    |  5500.00 |
++------+------------+-----------+----------+----------+
+
+# make the changes permanent 
+COMMIT;
+# modify the Last_Name, of the Employee ID=1003, to Gautam.
+ 
+mysql> UPDATE Employee
+    -> SET Last_Name='Gautam'
+    -> WHERE ID=1003;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *from Employee;
++------+------------+-----------+----------+----------+
+| ID   | First_Name | Last_Name | User_ID  | Salary   |
++------+------------+-----------+----------+----------+
+| 1001 | Aman       | Singh     | aman01   |  6000.00 |
+| 1002 | Raman      | Sharma    | raman02  |  7500.50 |
+| 1003 | Karan      | Gautam    | karan103 | 10000.00 |
+| 1004 | Rahul      | Sharma    | rahul04  |  9000.00 |
+| 1005 | Ram        | Singh     | ram05    |  5500.00 |
++------+------------+-----------+----------+----------+
+
+#modify the salary, and increase it by 1000, for all who get salary less than 6000.
+
+mysql> UPDATE Employee
+    -> SET Salary= Salary+1000
+    -> WHERE Salary<6000;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * FROM Employee;
++------+------------+-----------+----------+----------+
+| ID   | First_Name | Last_Name | User_ID  | Salary   |
++------+------------+-----------+----------+----------+
+| 1001 | Aman       | Singh     | aman01   |  6000.00 |
+| 1002 | Raman      | Sharma    | raman02  |  7500.50 |
+| 1003 | Karan      | Gautam    | karan103 | 10000.00 |
+| 1004 | Rahul      | Sharma    | rahul04  |  9000.00 |
+| 1005 | Ram        | Singh     | ram05    |  6500.00 |
++------+------------+-----------+----------+----------+
+
+#Delete the employee record having First_Name as Siddharth.
+
+mysql> DELETE FROM Employee
+    -> WHERE First_Name='Raman';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Employee;
++------+------------+-----------+----------+----------+
+| ID   | First_Name | Last_Name | User_ID  | Salary   |
++------+------------+-----------+----------+----------+
+| 1001 | Aman       | Singh     | aman01   |  6000.00 |
+| 1003 | Karan      | Gautam    | karan103 | 10000.00 |
+| 1004 | Rahul      | Sharma    | rahul04  |  9000.00 |
+| 1005 | Ram        | Singh     | ram05    |  6500.00 |
++------+------------+-----------+----------+----------+
+4 rows in set (0.00 sec)
+
+#identify the number and types of constraints in the table orders
+mysql> Create TABLE Orders(
+    -> O_id int NOT NULL,
+    -> OrderNo int NOT NULL,
+    -> P_ID int,
+    -> PRIMARY KEY (O_id),
+    -> FOREIGN KEY(P_ID) REFERENCES Persons(P_ID));
+ANS:The table Orders you created has these constraints:
+
+1).PRIMARY KEY (O_id):
+
+Ensures each order has a unique, non-null identifier.
+
+Guarantees uniqueness and not null on the O_id column.
+
+2).FOREIGN KEY (P_ID) REFERENCES Persons(P_ID):
+
+Enforces referential integrity to ensure the P_ID in Orders matches a valid P_ID in Persons.
+
+Prevents adding orders with invalid or non-existent person IDs.
+
+3).NOT NULL on O_id and OrderNo:
+
+Both O_id and OrderNo columns require values; they cannot be null.
+
+#Remove the entire contents of the table;
+ DELETE FROM Employee;
+
+# Add one column Email of data type VARCHAR and size 30 to the table Customer.
+ALTER TABLE Customer
+ADD (Email Varchar(30));
+
+# To see the field names, data types, and other table structure details for the CAND table, you can run this command in MySQL:
+mysql> SHOW COLUMNS FROM CAND;
+for eg:-
+
+mysql> CREATE TABLE CAND(
+    -> CNUM INT,
+    -> CNAME  VARCHAR(30),
+    -> DOB Date NOT NULL);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM CAND;
+Empty set (0.00 sec)
+
+mysql> SHOW COLUMNS FROM CAND;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| CNUM  | int         | YES  |     | NULL    |       |
+| CNAME | varchar(30) | YES  |     | NULL    |       |
+| DOB   | date        | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+
